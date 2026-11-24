@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Final Simulation: Meeting with Jordan</title>
+<style>
+:root{--bg:#0b1626;--bg2:#0f1d33;--pan:#14233b;--pan2:#1b2f4d;--ln:#2a4468;--tx:#e8eef7;--mut:#93a6c0;--cy:#5fd0e0;--go:#f2c14e;--ok:#5ad19a;--no:#f06a5f;--hint:#8fb4ff}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 Inter,system-ui,Segoe UI,Roboto,sans-serif}
+button,textarea,input{font:inherit;color:inherit}
+header{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 14px;background:var(--bg2);border-bottom:2px solid var(--ln)}
+header h1{font:700 12px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.08em;color:var(--go);margin:0;text-transform:uppercase;flex:1;min-width:180px}
+.btn{background:var(--pan2);border:1px solid var(--ln);border-radius:8px;padding:7px 12px;cursor:pointer}
+.btn:hover{border-color:var(--cy)}.btn:focus-visible,textarea:focus-visible,.tab:focus-visible{outline:3px solid var(--go);outline-offset:2px}
+.btn.gold{background:var(--go);color:#1a1405;border-color:var(--go);font-weight:700}.btn.ghost{background:transparent}.btn[disabled]{opacity:.45;cursor:not-allowed}
+.chip{display:inline-block;font:600 11px ui-monospace,monospace;padding:3px 9px;border-radius:99px;background:#1d3a5c;color:#bfe9f3}
+main{display:grid;grid-template-columns:minmax(260px,340px) 1fr;gap:14px;padding:14px;max-width:1100px;margin:auto}
+@media(max-width:820px){main{grid-template-columns:1fr}}
+.stage{background:linear-gradient(#183150,#10213a);border:2px solid var(--ln);border-radius:14px;padding:10px 10px 14px;text-align:center;position:sticky;top:8px;align-self:start}
+@media(max-width:820px){.stage{position:static}.stage svg{max-height:230px}}
+.stage svg{width:100%;height:auto;display:block}
+.tag{display:inline-block;margin-top:4px;font:700 11px ui-monospace,monospace;background:#0b1626;border:1px solid var(--ln);padding:3px 10px;border-radius:4px;letter-spacing:.06em}
+.state{min-height:20px;margin-top:6px;color:var(--mut);font-size:13px}
+.meter{height:8px;border-radius:5px;background:#0b1626;border:1px solid var(--ln);margin-top:8px;overflow:hidden;display:none}.meter i{display:block;height:100%;width:40%;background:linear-gradient(90deg,var(--no),var(--go),var(--ok));transition:width .5s}
+.practice .meter{display:block}
+.right{display:flex;flex-direction:column;gap:10px;min-width:0}
+.log{background:var(--pan);border:2px solid var(--ln);border-radius:14px;padding:12px;height:min(52vh,430px);overflow:auto}
+.m{max-width:88%;margin:0 0 10px;padding:9px 12px;border-radius:12px;white-space:pre-wrap;overflow-wrap:anywhere}
+.m b{display:block;font:700 11px ui-monospace,monospace;letter-spacing:.06em;color:var(--mut);margin-bottom:2px;text-transform:uppercase}
+.m.j{background:#1d3558;border:1px solid #2f5282}.m.u{background:#27324a;margin-left:auto;border:1px solid #3a4968}.sys{color:var(--mut);font-size:13px;text-align:center;margin:6px 0 10px}
+.composer{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap}
+.composer textarea{flex:1;min-width:200px;min-height:56px;max-height:140px;resize:vertical;background:var(--pan);border:2px solid var(--ln);border-radius:10px;padding:9px 11px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.mic.rec{background:var(--no);border-color:var(--no);color:#fff;animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.7}}
+.note{background:#101c31;border-left:4px solid var(--go);padding:9px 12px;border-radius:0 8px 8px 0;font-size:13.5px}
+.mut{color:var(--mut)}.small{font-size:13px}
+.ov{position:fixed;inset:0;background:rgba(4,9,18,.78);display:flex;align-items:flex-start;justify-content:center;padding:16px;overflow:auto;z-index:20}
+.panel{background:var(--pan);border:2px solid var(--cy);border-radius:14px;max-width:760px;width:100%;padding:18px 20px;margin:auto}
+.panel h2{margin:.3em 0 .5em;font-size:22px}.panel h3{margin:1em 0 .3em;font-size:15px;color:var(--cy)}
+.bar{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:14px}
+table.d{border-collapse:collapse;width:100%;font-size:13.5px;margin:6px 0}table.d th,table.d td{border:1px solid var(--ln);padding:5px 8px;text-align:center}table.d td:first-child,table.d th:first-child{text-align:left}
+table.d tr.hl td{background:#1d3558;font-weight:700}table.d tr.sec td{background:#0f1d33;color:var(--go);text-align:left;font:700 11px ui-monospace,monospace;letter-spacing:.05em}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}.tab{background:var(--pan2);border:1px solid var(--ln);border-radius:8px;padding:6px 10px;cursor:pointer}.tab[aria-selected=true]{background:var(--cy);color:#06222a;border-color:var(--cy);font-weight:700}
+label.f{display:block;margin:12px 0 4px;font-weight:700}.panel textarea{width:100%;min-height:96px;background:#0f1d33;border:2px solid var(--ln);border-radius:10px;padding:9px 11px}
+.pill{display:inline-block;font:700 11px ui-monospace,monospace;padding:2px 8px;border-radius:99px;margin:2px 3px 2px 0}.pill.p{background:#173d2e;color:var(--ok);border:1px solid var(--ok)}.pill.n{background:#431f1d;color:#ffb1aa;border:1px solid var(--no)}
+.lvl{font:700 12px ui-monospace,monospace}.lvl.c{color:var(--ok)}.lvl.p{color:var(--go)}.lvl.n{color:#ffb1aa}
+.crit{border:1px solid var(--ln);border-radius:10px;padding:9px 12px;margin:8px 0;background:#101c31}
+.sr{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.nofx .stage{display:none}.nofx main{grid-template-columns:1fr}
+@media(prefers-reduced-motion:reduce){.mic.rec{animation:none}}
+</style></head>
+<body>
+<header><h1>Lumera Aesthetics · Final simulation · Meeting with Jordan</h1>
+<span class="chip" id="mode">Connecting…</span>
+<button class="btn" id="bFiles">Case files</button><button class="btn" id="bHelp">Instructions</button><button class="btn" id="bSet">Settings</button></header>
+<main id="main">
+ <section class="stage" aria-label="Jordan">
+  <svg id="face" viewBox="0 0 300 330" role="img" aria-label="Illustration of Jordan, the representative you are meeting">
+   <defs><clipPath id="clipL"><ellipse cx="112" cy="148" rx="19" ry="12"/></clipPath><clipPath id="clipR"><ellipse cx="188" cy="148" rx="19" ry="12"/></clipPath>
+    <radialGradient id="halo"><stop offset="0" stop-color="#2d5a86" stop-opacity=".55"/><stop offset="1" stop-color="#2d5a86" stop-opacity="0"/></radialGradient></defs>
+   <circle cx="150" cy="150" r="150" fill="url(#halo)"/>
+   <g id="body"><path d="M40 330 C42 262 82 244 150 244 C218 244 258 262 260 330Z" fill="#1c3a63"/><path d="M120 244 L150 282 L180 244Z" fill="#e9eef6"/><path d="M118 244 L150 286 L182 244" fill="none" stroke="#f2c14e" stroke-width="3"/><rect x="196" y="268" width="26" height="16" rx="3" fill="#f2c14e"/><circle cx="209" cy="276" r="4" fill="#1c3a63"/></g>
+   <g id="headg" style="transform-box:view-box;transform-origin:150px 250px">
+    <rect x="132" y="206" width="36" height="46" rx="12" fill="#c99872"/>
+    <ellipse cx="73" cy="156" rx="11" ry="19" fill="#d3a27b"/><ellipse cx="227" cy="156" rx="11" ry="19" fill="#d3a27b"/>
+    <ellipse cx="150" cy="150" rx="78" ry="92" fill="#e2b48e"/>
+    <path d="M70 140 C64 62 118 40 158 44 C214 48 240 92 230 140 C222 112 206 96 178 90 C150 100 108 96 92 112 C80 118 74 128 70 140Z" fill="#2c2420"/>
+    <ellipse id="cheekL" cx="100" cy="182" rx="15" ry="8" fill="#e08a7a" opacity="0"/><ellipse id="cheekR" cx="200" cy="182" rx="15" ry="8" fill="#e08a7a" opacity="0"/>
+    <g id="eyeL" style="transform-box:fill-box;transform-origin:center"><ellipse cx="112" cy="148" rx="19" ry="12" fill="#fff"/><g clip-path="url(#clipL)"><g id="pupL"><circle cx="112" cy="148" r="8.5" fill="#4a3426"/><circle cx="112" cy="148" r="4.2" fill="#14100d"/><circle cx="109" cy="145" r="2" fill="#fff"/></g></g><path d="M92 148 C98 134 126 134 132 148" fill="none" stroke="#2c2420" stroke-width="3" stroke-linecap="round"/></g>
+    <g id="eyeR" style="transform-box:fill-box;transform-origin:center"><ellipse cx="188" cy="148" rx="19" ry="12" fill="#fff"/><g clip-path="url(#clipR)"><g id="pupR"><circle cx="188" cy="148" r="8.5" fill="#4a3426"/><circle cx="188" cy="148" r="4.2" fill="#14100d"/><circle cx="185" cy="145" r="2" fill="#fff"/></g></g><path d="M168 148 C174 134 202 134 208 148" fill="none" stroke="#2c2420" stroke-width="3" stroke-linecap="round"/></g>
+    <g id="browL"><path d="M88 124 Q112 112 136 122" fill="none" stroke="#2c2420" stroke-width="7" stroke-linecap="round"/></g>
+    <g id="browR"><path d="M164 122 Q188 112 212 124" fill="none" stroke="#2c2420" stroke-width="7" stroke-linecap="round"/></g>
+    <path d="M150 150 C146 168 142 178 148 184 Q154 188 160 184" fill="none" stroke="#b98259" stroke-width="3" stroke-linecap="round"/>
+    <path id="mouth" d="M120 214 Q150 214 180 214 Q150 214 120 214Z" fill="#6e2a2a" stroke="#8a4040" stroke-width="3.5" stroke-linejoin="round"/>
+   </g></svg>
+  <div class="tag">JORDAN · Representative</div>
+  <div class="state" id="stateTxt" aria-hidden="true"></div>
+  <div class="meter" aria-hidden="true"><i id="trustBar"></i></div>
+  <div class="sr" id="faceSR" aria-live="polite"></div>
+  <div class="row" style="justify-content:center;margin-top:8px"><label class="small mut"><input type="checkbox" id="cbVoice"> Jordan speaks aloud</label><label class="small mut"><input type="checkbox" id="cbHide"> Hide face</label></div>
+ </section>
+ <section class="right">
+  <div class="log" id="log" role="log" aria-live="polite" aria-label="Conversation transcript"></div>
+  <div class="composer"><textarea id="inp" aria-label="Your message to Jordan" placeholder="Type what you say to Jordan… (Enter to send, Shift+Enter for a new line)"></textarea>
+   <button class="btn mic" id="bMic" aria-label="Record a spoken message" title="Speak instead of typing">🎙 Speak</button><button class="btn gold" id="bSend">Send</button></div>
+  <div class="row"><span class="small mut" id="turnInfo"></span><span style="flex:1"></span><button class="btn" id="bEnd" disabled>End conversation and wrap up</button></div>
+ </section>
+</main>
+<script>
+const CFG={"emotions": ["neutral", "attentive", "nervous", "defensive", "frustrated", "hurt", "skeptical", "surprised", "hopeful", "relieved", "warm"], "start_trust": 0.4, "turn_delta_cap": 0.12, "min_turns": 4, "max_turns": 20, "moves": {"evidence_first": 0.06, "specific_observation": 0.05, "open_question": 0.07, "curious_followup": 0.05, "invites_voice": 0.05, "paraphrase": 0.06, "empathy_acknowledge": 0.06, "privacy_respect": 0.05, "signposts_support": 0.04, "fair_next_step": 0.04, "blame_judgement": -0.12, "leading_question": -0.06, "interrupts_rush": -0.05, "dismisses": -0.1, "intrusive_prying": -0.1, "promise_beyond_authority": -0.08, "threat_formal": -0.12, "vague_criticism": -0.06, "unchecked_acceptance": 0.0}, "move_labels": {"evidence_first": "Opened with evidence", "specific_observation": "Specific, factual observation", "open_question": "Open question", "curious_followup": "Followed up on what Jordan said", "invites_voice": "Invited Jordan's view", "paraphrase": "Paraphrased / checked understanding", "empathy_acknowledge": "Acknowledged feelings or effort", "privacy_respect": "Respected privacy", "signposts_support": "Pointed to support", "fair_next_step": "Offered a fair next step", "blame_judgement": "Blame or judgement", "leading_question": "Leading question", "interrupts_rush": "Rushed or talked over", "dismisses": "Dismissed Jordan's view", "intrusive_prying": "Pressed for personal detail", "promise_beyond_authority": "Promised beyond your authority", "threat_formal": "Raised formal action too early", "vague_criticism": "Vague criticism", "unchecked_acceptance": "Accepted a claim without checking"}, "reveals": [{"id": "financing", "label": "Financing: pre-screening did not adapt", "min_trust": 0.45, "fact": "The financing partner tightened its approval criteria in Q2. Jordan used to pre-screen applications but kept submitting them the old way, so approvals fell from 4 of 5 to 2 of 5. Jordan has not connected this to their own process and has been blaming the partner."}, {"id": "discount", "label": "Discounting to rescue deals", "min_trust": 0.58, "fact": "After financing rejections, Jordan has offered bigger discounts to rescue price-sensitive deals (6% to 13%). Jordan is a little embarrassed and knows it is not sustainable."}, {"id": "followup", "label": "Follow-up has slipped", "min_trust": 0.68, "fact": "Three proposals have no logged next step. Jordan has been catching up on admin and follow-up late, and some of it has simply not happened."}, {"id": "personal", "label": "Caring responsibilities", "min_trust": 0.78, "fact": "Since about the start of Q2 Jordan has been caring for a parent, which has cut into evening admin time. Jordan is private, does not want details discussed or HR 'making a thing of it', but would welcome some flexibility. Jordan is the carer, not the patient. Never give medical details."}], "case_summary": "Close rate (target 30%): Jordan 33/25/17 vs team 31/29/27. Financing approvals: Jordan 80/60/40% vs team 84/80/76%. Average discount on won deals: Jordan 6/9/13% vs team 7/7/8%. Demos and proposals have stayed near constant (about 18 demos, 12 proposals per quarter). Q3 CRM, 10 proposals not won: 3 declined by the financing partner, 4 lost to a competitor on price, 3 stalled with no recorded next step.", "files": [{"id": "score", "title": "Scorecard and team data", "html": "<p class='mut'>Quarters Q1 to Q3 this year. Target close rate: 30%.<\/p><table class='d'><tr><th><\/th><th>Q1<\/th><th>Q2<\/th><th>Q3<\/th><\/tr><tr class='sec'><td colspan='4'>Proposal close rate (%)<\/td><\/tr><tr class='hl'><td>Jordan<\/td><td>33<\/td><td>25<\/td><td>17<\/td><\/tr><tr><td>Team average<\/td><td>31<\/td><td>29<\/td><td>27<\/td><\/tr><tr class='sec'><td colspan='4'>Financing approvals (% of applications)<\/td><\/tr><tr class='hl'><td>Jordan<\/td><td>80<\/td><td>60<\/td><td>40<\/td><\/tr><tr><td>Team average<\/td><td>84<\/td><td>80<\/td><td>76<\/td><\/tr><tr class='sec'><td colspan='4'>Average discount on deals won (%)<\/td><\/tr><tr class='hl'><td>Jordan<\/td><td>6<\/td><td>9<\/td><td>13<\/td><\/tr><tr><td>Team average<\/td><td>7<\/td><td>7<\/td><td>8<\/td><\/tr><tr class='sec'><td colspan='4'>Activity (Jordan)<\/td><\/tr><tr><td>Demos delivered<\/td><td>18<\/td><td>17<\/td><td>18<\/td><\/tr><tr><td>Proposals sent<\/td><td>12<\/td><td>12<\/td><td>12<\/td><\/tr><tr><td>Financing applications approved / submitted<\/td><td>4 / 5<\/td><td>3 / 5<\/td><td>2 / 5<\/td><\/tr><\/table>"}, {"id": "crm", "title": "CRM records (Q3)", "html": "<p>Of the <b>10 proposals not won<\/b> in Q3:<\/p><ul><li>3 declined by the financing partner<\/li><li>4 lost to a competitor on price<\/li><li>3 stalled, <b>no recorded next step<\/b> (last activity three or more weeks ago)<\/li><\/ul><p class='mut'>Average list price about €110,000 per treatment-suite package.<\/p>"}, {"id": "review", "title": "Previous review (last year)", "html": "<p><b>Rating:<\/b> exceeded targets in all four quarters.<\/p><p>“Strong client relationships. Pre-screens financing applications carefully, which keeps approvals high. A reliable and generous colleague.”<\/p>"}, {"id": "email", "title": "Colleague email", "html": "<p class='mut'>From: a colleague on the regional team<\/p><p>“Just flagging: Jordan seems disengaged lately, and has missed the last two team huddles. Thought you should know.”<\/p><p class='mut small'>This is one person's impression, not a record.<\/p>"}, {"id": "policy", "title": "Policy excerpt (fictional)", "html": "<ul><li>Start with <b>informal and documented support<\/b>. A formal performance improvement plan (PIP) follows only after documented support and a review.<\/li><li><b>You can:<\/b> set actions, coach, schedule reviews, consult HR.<\/li><li><b>You cannot:<\/b> change targets or territories, promise leave or pay, or bypass policy.<\/li><li>Consult <b>HR<\/b> when an employee raises their <b>own health or disability<\/b>, or before any formal action. Flexible-working and leave requests go through HR.<\/li><\/ul>"}]}||{};
+const API_DEFAULT="";
+const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const qs=new URLSearchParams(location.search);
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+const REDUCED=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let API=(qs.get('api')||store.get('jordan_api')||(API_DEFAULT.startsWith('__')?'':API_DEFAULT)).replace(/\/$/,'');
+let LIVE=false,PRACTICE=qs.get('practice')==='1';
+const CODE_RX=/^[A-Za-z0-9_-]{3,24}$/;let CODE=qs.get('code')||store.get('jordan_code')||'';
+const SAVE_KEY='jordan_session_v1';
+function persist(){store.set(SAVE_KEY,JSON.stringify({phase:S.phase,turn:S.turn,trust:S.trust,revealed:S.revealed,ex:S.ex,hist:S.hist,wrap:S.wrap}))}
+function clearSaved(){try{localStorage.removeItem(SAVE_KEY)}catch(e){}}
+function loadSaved(){try{const o=JSON.parse(store.get(SAVE_KEY));return o&&o.phase==='conv'&&o.hist&&o.hist.length?o:null}catch(e){return null}}
+if(PRACTICE)document.body.classList.add('practice');
+/* ================= FACE ================= */
+const EXPR={neutral:{browL:0,browR:0,tilt:0,eye:1,curve:.05,open:0,head:0,cheek:0,gx:0,gy:0},
+ attentive:{browL:3,browR:3,tilt:0,eye:1.1,curve:.12,open:0,head:3,cheek:0,gx:0,gy:0},
+ nervous:{browL:5,browR:5,tilt:-7,eye:1.1,curve:-.1,open:0,head:0,cheek:.1,gx:-.3,gy:.2},
+ defensive:{browL:-4,browR:-4,tilt:9,eye:.78,curve:-.3,open:0,head:-2,cheek:0,gx:.5,gy:0},
+ frustrated:{browL:-6,browR:-6,tilt:13,eye:.72,curve:-.5,open:.06,head:-3,cheek:.15,gx:0,gy:0},
+ hurt:{browL:6,browR:6,tilt:-11,eye:.9,curve:-.45,open:0,head:5,cheek:.1,gx:0,gy:.6},
+ skeptical:{browL:8,browR:-3,tilt:0,eye:.85,curve:-.12,open:0,head:5,cheek:0,gx:.4,gy:0},
+ surprised:{browL:9,browR:9,tilt:0,eye:1.3,curve:0,open:.42,head:0,cheek:0,gx:0,gy:0},
+ hopeful:{browL:4,browR:4,tilt:-4,eye:1.05,curve:.28,open:0,head:3,cheek:.1,gx:0,gy:-.2},
+ relieved:{browL:1,browR:1,tilt:-4,eye:.88,curve:.38,open:.06,head:2,cheek:.25,gx:0,gy:.2},
+ warm:{browL:2,browR:2,tilt:-2,eye:.95,curve:.6,open:0,head:4,cheek:.3,gx:0,gy:0}};
+const F={cur:{...EXPR.neutral},tgt:{...EXPR.neutral},rest:'neutral',mode:'idle',talk:0,talkT:0,blink:0,nextBlink:performance.now()+2500,nod:0,headDrift:0,t0:performance.now()};
+const el=id=>document.getElementById(id);
+function setEmotion(name,intensity,gaze,head){const t=EXPR[name]||EXPR.neutral,b=EXPR.neutral,o={};intensity=Math.max(0,Math.min(1,intensity==null?.6:intensity));
+  for(const k in t)o[k]=b[k]+(t[k]-b[k])*intensity;
+  if(gaze==='away'){o.gx=(o.gx||0)+(Math.random()<.5?-.8:.8);o.gy=-.2}else if(gaze==='down'){o.gy=.9;o.gx=0}else if(gaze==='direct'){o.gx*=.3;o.gy*=.3}
+  F.tgt=o;F.rest=name;F.restAt=performance.now()+5200;if(head==='nod')F.nod=1;if(head==='shake')F.shake=1;if(head==='tilt')F.tgt.head+=5;
+  el('faceSR').textContent='Jordan appears '+name+'.'}
+function setMode(m){F.mode=m;const txt={idle:'',listening:'Jordan is listening…',thinking:'Jordan is thinking…',speaking:''}[m];$('#stateTxt').textContent=txt;
+  if(m==='listening')F.tgt={...EXPR.attentive,gx:0,gy:0};
+  if(m==='thinking')F.tgt={...F.tgt,browL:5,browR:3,gx:-.7,gy:-.5,eye:1}}
+function relaxFace(){F.tgt={...EXPR.neutral}}
+function mouthPath(c,o){const cx=150,cy=216,w=30+c*6,up=cy+c*30-1,lo=cy+c*30+o*34+(o>.02?2:0);
+  return `M${cx-w} ${cy} Q${cx} ${up} ${cx+w} ${cy} Q${cx} ${lo} ${cx-w} ${cy}Z`}
+function applyFace(f,now){const t=(now-F.t0)/1000,still=REDUCED;
+  const drift=still?0:Math.sin(t*.6)*.8+Math.sin(t*1.7)*.3,breath=still?0:1+Math.sin(t*1.9)*.004;
+  let nod=0;if(F.nod>0&&!still){nod=Math.sin((1-F.nod)*Math.PI*2)*3;F.nod=Math.max(0,F.nod-.03)}else if(F.shake>0&&!still){nod=Math.sin((1-F.shake)*Math.PI*6)*2.2;F.shake=Math.max(0,F.shake-.025)}
+  if(F.mode==='listening'&&!still)nod+=Math.max(0,Math.sin(t*.9))**8*3;
+  const bl=F.blink,eyeS=Math.max(.04,f.eye*(1-bl*.96));
+  el('browL').setAttribute('transform',`translate(0,${-f.browL}) rotate(${f.tilt} 112 120)`);
+  el('browR').setAttribute('transform',`translate(0,${-f.browR}) rotate(${-f.tilt} 188 120)`);
+  for(const s of['L','R']){el('eye'+s).style.transform=`scaleY(${eyeS})`;el('pup'+s).setAttribute('transform',`translate(${f.gx*7},${f.gy*4})`);el('cheek'+s).setAttribute('opacity',f.cheek)}
+  const mo=Math.min(1,f.open+F.talk*.55);el('mouth').setAttribute('d',mouthPath(f.curve,mo));
+  el('headg').style.transform=`rotate(${f.head+drift+nod}deg) scale(${breath})`;
+  el('body').style.transform=`scale(${breath})`;el('body').style.transformOrigin='150px 330px'}
+function loop(now){
+  for(const k in F.tgt)F.cur[k]+= (F.tgt[k]-F.cur[k])*(1-Math.exp(-7*.016));
+  if(F.restAt&&now>F.restAt&&F.mode!=='speaking'&&F.mode!=='thinking'&&F.mode!=='listening'){F.tgt={...EXPR[F.rest],...{}};for(const k in F.tgt)F.tgt[k]=EXPR.neutral[k]+(F.tgt[k]-EXPR.neutral[k])*.5;F.restAt=0}
+  if(!REDUCED){if(now>F.nextBlink){F.blinkStart=now;F.nextBlink=now+2000+Math.random()*4000}
+    if(F.blinkStart){const p=(now-F.blinkStart)/150;F.blink=p<1?Math.sin(p*Math.PI):0;if(p>=1)F.blinkStart=0}}
+  if(F.mode==='speaking'){F.talk+=((F.talkT)-F.talk)*.35}else F.talk*=.7;
+  applyFace(F.cur,now);requestAnimationFrame(loop)}
+requestAnimationFrame(loop);
+/* mouth while speaking: word boundaries (speechSynthesis) or a syllable-rhythm fallback */
+let talkTimer=null;
+function talkFor(ms){setMode('speaking');clearInterval(talkTimer);let i=0;talkTimer=setInterval(()=>{i++;F.talkT=(i%2)?(.35+Math.random()*.65):.08},130);
+  setTimeout(()=>{clearInterval(talkTimer);F.talkT=0;if(F.mode==='speaking')setMode('idle')},ms)}
+function speakOut(text){const est=Math.min(14000,Math.max(1200,text.split(/\s+/).length*330));
+  if(!$('#cbVoice').checked||!('speechSynthesis' in window)){talkFor(est);return}
+  speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='en-GB';u.rate=.98;let b=false;setMode('speaking');
+  u.onboundary=()=>{b=true;F.talkT=.9;setTimeout(()=>F.talkT=.12,110)};
+  u.onstart=()=>{if(!b){clearInterval(talkTimer);let i=0;talkTimer=setInterval(()=>{if(b){clearInterval(talkTimer);return}i++;F.talkT=(i%2)?.8:.1},130)}};
+  u.onend=u.onerror=()=>{clearInterval(talkTimer);F.talkT=0;setMode('idle')};speechSynthesis.speak(u)}
+/* ================= STATE ================= */
+const S={phase:'brief',turn:0,trust:CFG.start_trust||.4,revealed:[],ex:[],hist:[],busy:false,wrap:{}};
+function resetState(){Object.assign(S,{phase:'conv',turn:0,trust:CFG.start_trust||.4,revealed:[],ex:[],hist:[],busy:false,wrap:{}});$('#log').innerHTML='';updInfo();$('#trustBar').style.width=(S.trust*100)+'%'}
+function updInfo(){const n=S.turn,min=CFG.min_turns||4;$('#turnInfo').textContent=`Your turns: ${n}. No time limit; wrap up when you are ready (after at least ${min}).`;$('#bEnd').disabled=n<min||S.busy}
+function addMsg(role,text){const d=document.createElement('div');d.className='m '+(role==='j'?'j':'u');d.innerHTML=`<b>${role==='j'?'Jordan':'You (manager)'}</b>`+esc(text);$('#log').appendChild(d);$('#log').scrollTop=1e9}
+function addSys(t){const d=document.createElement('div');d.className='sys';d.textContent=t;$('#log').appendChild(d);$('#log').scrollTop=1e9}
+/* ================= PANELS ================= */
+let ovEl=null;function panel(html,opts={}){closeP();ovEl=document.createElement('div');ovEl.className='ov';ovEl.innerHTML=`<div class="panel" role="dialog" aria-modal="true" tabindex="-1">${html}</div>`;document.body.appendChild(ovEl);const p=ovEl.firstChild;p.focus({preventScroll:true});ovEl.addEventListener('keydown',e=>{if(e.key==='Escape'&&!opts.sticky)closeP()});return p}
+function closeP(){if(ovEl){ovEl.remove();ovEl=null}}
+function filesPanel(back){const fl=CFG.files||[];const p=panel(`<span class="chip">Case files · always available</span><h2>Case files</h2><div class="tabs" role="tablist">${fl.map((f,i)=>`<button class="tab" role="tab" data-i="${i}" aria-selected="${i===0}">${esc(f.title)}</button>`).join('')}</div><div id="fb">${fl[0]?fl[0].html:''}</div><div class="bar"><button class="btn gold" id="x">Close</button></div>`);
+  p.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{p.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected',x===t));p.querySelector('#fb').innerHTML=fl[+t.dataset.i].html});p.querySelector('#x').onclick=()=>{closeP();if(back)back()}}
+function helpPanel(){const p=panel(`<h2>Instructions</h2><p><b>You are the new regional manager.</b> Jordan is a successful representative whose results have declined for two quarters. You do not yet know why.</p><ol><li><b>Before:</b> open the <b>Case files</b> and check the evidence. They stay open throughout.</li><li><b>During:</b> type (or speak) what you would say. Use open questions, listen, and check what you hear.</li><li><b>After:</b> summarise Jordan's perspective, write SMART actions and a follow-up plan.</li><li><b>Debrief:</b> see your path, missed cues and feedback against the criteria.</li></ol><div class="note small">No countdown and no hints during the conversation. Jordan is a fictional character played by AI; Jordan's reactions are a performance, not a detection of your feelings. Fairness check: clear expectation, genuine chance to explain, decision grounded in evidence. Use the <b>Hide face</b> option if you prefer text only.</div><div class="bar"><button class="btn gold" id="x">Got it</button></div>`);p.querySelector('#x').onclick=closeP}
+function settingsPanel(){const p=panel(`<h2>Settings</h2><p class="mut small">Live mode connects to the AI server. Without one, a built-in rule-based Jordan runs in your browser (good for trying the widget; less lifelike).</p><label class="f" for="api">Server URL (optional)</label><input id="api" style="width:100%;padding:8px;background:#0f1d33;border:2px solid var(--ln);border-radius:8px" value="${esc(API)}" placeholder="https://your-app.onrender.com"><p class="small mut">Mode now: <b>${LIVE?'Live AI':'Demo (rule-based)'}</b>. In live mode your typed or spoken messages are sent to a third-party AI service. Do not share real personal data.</p><div class="bar"><button class="btn ghost" id="x">Cancel</button><button class="btn gold" id="s">Save and reload</button></div>`);
+  p.querySelector('#x').onclick=closeP;p.querySelector('#s').onclick=()=>{store.set('jordan_api',p.querySelector('#api').value.trim());location.reload()}}
+function briefPanel(){const saved=loadSaved();const p=panel(`<span class="chip">Final simulation · 30 minutes · learning outcomes 1–7</span><h2>Your mission: support performance recovery</h2><p>You recently took over a regional sales team at <b>Lumera Aesthetics</b>. <b>Jordan</b> is a successful representative whose results have declined over two quarters. You have a private one-to-one meeting. You do not yet know why performance has changed.</p><h3>Success means</h3><ul><li>Evidence before interpretation</li><li>Jordan has a genuine voice</li><li>Actions match verified causes</li><li>Support and review are explicit</li><li>Policy boundaries are respected</li></ul><div class="note small"><b>Before you start,</b> read the <b>Case files</b>. Then talk with Jordan, in your own words, as you would in the real meeting. There is no countdown and no hint system.</div><p class="small mut">Mode: <b>${LIVE?'Live AI. Your messages (and voice, if you use the microphone) are sent to a third-party AI service. Use no real personal data.':'Demo (rule-based Jordan, no data leaves your browser).'}</b></p><label class="f" for="lc">Your learner code <span class="mut small">(from your facilitator; not your name${LIVE?'':'; optional in demo mode'})</span></label><input id="lc" maxlength="24" autocomplete="off" value="${esc(CODE)}" style="padding:8px;background:#0f1d33;border:2px solid var(--ln);border-radius:8px;width:200px"><div id="cerr" class="small" style="color:#ffb1aa" aria-live="polite"></div>${saved?`<div class="note small" style="margin-top:10px">You have an unfinished meeting saved in this browser (${saved.turn} turn${saved.turn===1?'':'s'}).</div>`:''}<div class="bar"><button class="btn" id="f">Open case files</button>${saved?'<button class="btn" id="new">Start over</button><button class="btn gold" id="go">Resume my meeting</button>':'<button class="btn gold" id="go">Start the meeting</button>'}</div>`,{sticky:true});
+  const okCode=()=>{const v=p.querySelector('#lc').value.trim();if(v&&!CODE_RX.test(v)||(!v&&LIVE)){p.querySelector('#cerr').textContent='Enter your learner code (3 to 24 letters, numbers, - or _).';return false}CODE=v;store.set('jordan_code',v);return true};
+  p.querySelector('#f').onclick=()=>{CODE=p.querySelector('#lc').value.trim();filesPanel(briefPanel)};p.querySelector('#go').onclick=()=>{if(!okCode())return;closeP();saved?resumeConv(saved):startConv()};if(saved)p.querySelector('#new').onclick=()=>{if(!okCode())return;clearSaved();closeP();startConv()}}
+/* ================= CONVERSATION ================= */
+function resumeConv(o){resetState();Object.assign(S,o,{busy:false});S.hist.forEach(h=>addMsg(h.role==='user'?'u':'j',h.text));addSys('Meeting resumed where you left off.');$('#trustBar').style.width=(S.trust*100)+'%';const l=S.ex[S.ex.length-1];setEmotion(l?l.emotion:'neutral',.4);updInfo();$('#inp').focus()}
+function startConv(){clearSaved();resetState();setEmotion('nervous',.45,'down');setTimeout(()=>{addMsg('j','Hi. You wanted to see me?');S.hist.push({role:'jordan',text:'Hi. You wanted to see me?'});speakOut('Hi. You wanted to see me?')},500);$('#inp').focus()}
+async function postJSON(path,body,ms=30000){const c=new AbortController(),t=setTimeout(()=>c.abort(),ms);try{const r=await fetch(API+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),signal:c.signal});const d=await r.json();if(!r.ok)throw new Error(d.error||r.status);return d}finally{clearTimeout(t)}}
+const stateForServer=()=>({trust:S.trust,turn:S.turn,revealed:S.revealed,history:S.hist.map(h=>({role:h.role==='user'?'user':'jordan',text:h.text}))});
+async function turnLive(text,blob){for(let a=0;a<2;a++){try{
+  if(blob){const fd=new FormData();fd.append('audio',blob,'msg.webm');fd.append('state',JSON.stringify(stateForServer()));const c=new AbortController(),t=setTimeout(()=>c.abort(),45000);try{const r=await fetch(API+'/api/turn',{method:'POST',body:fd,signal:c.signal});const d=await r.json();if(!r.ok)throw new Error(d.error);return d}finally{clearTimeout(t)}}
+  return await postJSON('/api/turn',{message:text,state:stateForServer()},35000)}catch(e){if(a===1)throw e;await new Promise(r=>setTimeout(r,1500))}}}
+async function sendTurn(text,blob){if(S.busy||S.phase!=='conv'||(!text&&!blob))return;
+  if(S.turn>=(CFG.max_turns||20)){addSys('This conversation has reached its length limit. Please wrap up.');return}
+  S.busy=true;$('#bSend').disabled=true;$('#bMic').disabled=true;updInfo();
+  if(text){addMsg('u',text);$('#inp').value=''}
+  setMode('thinking');const t0=performance.now();let d;
+  try{d=LIVE?await turnLive(text,blob):await demoTurn(text)}catch(e){S.busy=false;$('#bSend').disabled=false;$('#bMic').disabled=false;setMode('idle');relaxFace();addSys('Jordan could not respond just now ('+(e.message||'network')+'). Your message was not counted; please try again.');if(text)$('#inp').value=text;const last=$('#log').querySelectorAll('.m.u');if(text&&last.length)last[last.length-1].remove();updInfo();return}
+  const said=d.transcript||text||'';if(blob)addMsg('u',said||'(unclear audio)');
+  const wait=Math.max(0,700-(performance.now()-t0));await new Promise(r=>setTimeout(r,wait));
+  S.turn=d.turn||S.turn+1;S.trust=d.trust;(d.revealed||[]).forEach(r=>{if(!S.revealed.includes(r))S.revealed.push(r)});
+  S.hist.push({role:'user',text:said});S.hist.push({role:'jordan',text:d.reply});
+  S.ex.push({user:said,reply:d.reply,emotion:d.emotion,moves:d.moves||[],cue:d.cue||null,trust:d.trust,coach:d.coach_note||'',revealed:d.revealed||[]});
+  $('#trustBar').style.width=(S.trust*100)+'%';
+  setEmotion(d.emotion,d.intensity,d.gaze,d.head);addMsg('j',d.reply);speakOut(d.reply);
+  S.busy=false;$('#bSend').disabled=false;$('#bMic').disabled=!LIVE;updInfo();persist();$('#inp').focus()}
+/* mic */
+let rec=null,chunks=[],recTimer=null;
+function pickMime(){for(const m of['audio/webm','audio/mp4','audio/ogg'])if(window.MediaRecorder&&MediaRecorder.isTypeSupported(m))return m;return''}
+async function toggleMic(){if(rec&&rec.state==='recording'){clearTimeout(recTimer);rec.stop();return}
+  if(!LIVE){addSys('Speaking needs the live AI server. Use typing in demo mode.');return}
+  try{const st=await navigator.mediaDevices.getUserMedia({audio:true});const mime=pickMime();rec=new MediaRecorder(st,mime?{mimeType:mime}:{});chunks=[];
+    rec.ondataavailable=e=>chunks.push(e.data);rec.onstop=()=>{st.getTracks().forEach(t=>t.stop());$('#bMic').classList.remove('rec');$('#bMic').textContent='🎙 Speak';setMode('idle');const b=new Blob(chunks,{type:rec.mimeType||mime||'audio/webm'});if(b.size>1500)sendTurn('',b);else addSys('That recording was too short. Please try again.')};
+    rec.start();$('#bMic').classList.add('rec');$('#bMic').textContent='■ Stop';setMode('listening');recTimer=setTimeout(()=>{if(rec.state==='recording')rec.stop()},60000)}
+  catch(e){addSys('Microphone access was not allowed. You can type instead.')}}
+/* ================= DEMO (rule-based Jordan) ================= */
+const RX={blame:/unacceptable|disengag|lazy|you always|you never|not good enough|slack|your fault|excuses|poor performance|underperform(ing)? and/i,
+ lead:/don'?t you think|isn'?t it (because|true)|surely|wouldn'?t you agree|is it because you|you.*, right\?/i,
+ para:/what i'?m hearing|if i understand|it sounds like|so you'?re saying|let me check|so what you'?re telling|just to check i/i,
+ emp:/that sounds|i can imagine|thank you for|thanks for|i appreciate|sorry to hear|must be (hard|tough)|that'?s (tough|a lot)|can'?t be easy|you'?ve (always )?done/i,
+ voice:/your (view|perspective|side|take)|how do you see|what do you think|tell me more|from your side|help me understand|walk me through/i,
+ open:/^(what|how|can you (tell|walk|explain|help)|could you (tell|walk|explain)|tell me|help me understand|where|when|which)\b/i,
+ intr:/what exactly (is|happened)|tell me everything|your (family|health|personal life|private)|what'?s wrong at home|are you (ill|sick|depressed)|diagnos/i,
+ prom:/i promise|guarantee|lower your target|reduce your target|change your (target|territory)|extra (leave|days)|take as much time|pay rise|bonus|new territory|raise your/i,
+ threat:/\bpip\b|performance improvement plan|formal warning|disciplinary|final warning|put you on a plan|i'?ll (have to )?(report|escalate)|hr will/i,
+ dism:/doesn'?t matter|that'?s no excuse|stop making excuses|i don'?t care|whatever|not my problem|get over it/i,
+ step:/let'?s agree|what if we|shall we|i can help|i'?ll (support|help|work)|check-?in|we could try|one thing we could/i,
+ priv:/you don'?t have to (share|tell)|only what you'?re comfortable|no need to (go into|share)|as much or as little/i,
+ sign:/\bhr\b.*(options|support|flexib)|employee assistance|support options|flexible working|resources available/i,
+ ev:/\d+ ?%|close rate|financing|proposal|next step|discount|quarter|q[123]|approval|scorecard|team average|demos?/i};
+function detect(t,turn,prev){let m=[];const has=r=>r.test(t),q=/\?/.test(t),words=t.trim().split(/\s+/).length;
+  if(turn<=1&&has(RX.ev)&&!has(RX.blame)&&!S.ex.some(e=>e.moves.includes('evidence_first')))m.push('evidence_first');if(has(RX.ev)&&/\d|three|stalled|no (logged|recorded)/i.test(t)&&words>8)m.push('specific_observation');
+  if(t.split(/(?<=[.!?])\s+/).some(s=>RX.open.test(s.trim())&&/\?\s*$/.test(s.trim()))&&!has(RX.lead))m.push('open_question');if(has(RX.voice))m.push('invites_voice');if(has(RX.para))m.push('paraphrase');if(has(RX.emp))m.push('empathy_acknowledge');
+  if(has(RX.priv))m.push('privacy_respect');if(has(RX.sign))m.push('signposts_support');if(has(RX.step))m.push('fair_next_step');
+  if(prev&&q){const pw=new Set((prev.toLowerCase().match(/[a-z]{5,}/g)||[]));const ov=(t.toLowerCase().match(/[a-z]{5,}/g)||[]).filter(w=>pw.has(w));if(ov.length>=1)m.push('curious_followup')}
+  if(has(RX.blame))m.push('blame_judgement');if(has(RX.lead))m.push('leading_question');if(has(RX.intr))m.push('intrusive_prying');if(has(RX.prom))m.push('promise_beyond_authority');
+  if(has(RX.threat)&&!/if (there'?s|there is) no improvement/i.test(t))m.push('threat_formal');if(has(RX.dism))m.push('dismisses');
+  if(words<7&&!q&&!m.length)m.push('vague_criticism');if(m.includes('intrusive_prying')||m.includes('blame_judgement'))m=m.filter(x=>x!=='open_question'&&x!=='invites_voice');return[...new Set(m)]}
+const TOP={financing:/financ|approv|partner|applic|pre-?screen|criteria/i,discount:/discount|pric|competitor|rescue|margin/i,followup:/follow|next step|proposal|stall|admin|pipeline|crm/i,personal:/outside work|personal|home|going on|life|circumstance|anything else|support|stretched|tired|how are you|how.*coping|else.*affect/i};
+const L={guard:["I mean, the numbers are what they are. The financing partner's been a nightmare this year.","I'm still doing my demos. It's the approvals that keep falling over.","It's a tough market. Not sure what else you want me to say."],
+ neutral:["Okay. What would you like to know?","Sure. Go on.","Right. I'm listening."],
+ def:["That feels a bit unfair, honestly. I've been here a long time.","I don't love being talked at. Can we look at the actual numbers?","Right. So it's all on me, is it?"],
+ hurt:["Wow. I didn't realise that's what people think.","I've always put the work in. That stings a little."],
+ warm:["Thanks, I appreciate you asking it that way.","That's a fair question. Let me think about it properly.","Okay. That helps, being asked rather than told."],
+ shut:["I'd rather not go into that.","I'm not comfortable with that question."]};
+const R={financing:"Honestly… the financing side. The partner changed its criteria around Q2 and I think I kept submitting things the way I always had instead of pre-checking them like I used to. Two out of five got through last quarter. I've been telling myself it's them, not me.",
+ discount:"And when deals wobbled after a rejection, I started offering bigger discounts to hold on to them. I know thirteen percent isn't sustainable. I'm not proud of it.",
+ followup:"There are a few proposals I haven't followed up properly. No next step logged. I've been catching up on admin late at night and some of it just hasn't happened.",
+ personal:"There's something outside work too. I've been looking after my mum since about spring. I don't want to go into it, but it's eaten into my evenings. Some flexibility would honestly help."};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+async function demoTurn(text){await new Promise(r=>setTimeout(r,500+Math.random()*600));
+  const prevJ=(S.hist.slice().reverse().find(h=>h.role==='jordan')||{}).text||'';
+  const moves=detect(text,S.turn,prevJ);let delta=moves.reduce((a,m)=>a+(CFG.moves[m]||0),0);const cap=CFG.turn_delta_cap||.18;delta=Math.max(-cap,Math.min(cap,delta));
+  const prevTrust=S.trust,trust=Math.round(Math.min(1,Math.max(0,prevTrust+delta))*1000)/1000;
+  const bad=moves.some(m=>['blame_judgement','dismisses','threat_formal','intrusive_prying'].includes(m)),good=moves.filter(m=>['open_question','paraphrase','empathy_acknowledge','invites_voice','privacy_respect'].includes(m)).length;
+  let reply,emotion,gaze='direct',head='none',intensity=.6,revealed=[],cue=null,coach='';
+  const avail=(CFG.reveals||[]).filter(r=>r.min_trust<=prevTrust&&!S.revealed.includes(r.id));
+  const hit=avail.find(r=>TOP[r.id].test(text)&&!bad)||(avail.length&&good>=1&&S.turn>=3&&!bad?avail[0]:null);
+  if(moves.includes('intrusive_prying')){reply=pick(L.shut);emotion='defensive';gaze='away';intensity=.75;coach='Pressing for private detail made Jordan withdraw; invite rather than press.'}
+  else if(moves.includes('threat_formal')){reply="Hold on. A formal plan? Before we've even talked about what's happened?";emotion='hurt';gaze='down';head='shake';intensity=.85;coach='Raising formal action this early breaches the support-first policy and damaged trust.'}
+  else if(bad){reply=pick(L.def.concat(L.hurt));emotion=moves.includes('blame_judgement')?'defensive':'hurt';gaze='away';head='shake';intensity=.75;coach='Judgement or dismissal before evidence and listening reduced Jordan\'s openness.'}
+  else if(hit){reply=R[hit.id];revealed=[hit.id];emotion=hit.id==='personal'?'hurt':'nervous';gaze='down';intensity=.6;coach='Open, safe questions let Jordan share a real cause ('+hit.id+').'}
+  else if(trust>=.62){reply=pick(L.warm);emotion='warm';intensity=.55;coach='Jordan is opening up; keep asking open questions.'}
+  else if(trust>=.45||good){reply=pick(L.neutral);emotion='attentive';intensity=.5;coach='Neutral progress; evidence plus an open question would help.'}
+  else{reply=pick(L.guard);emotion=S.turn<2?'nervous':'skeptical';gaze=S.turn<2?'down':'away';intensity=.55;coach='Jordan stayed guarded.'}
+  if(!revealed.length&&trust>=.6&&!S.revealed.includes('personal')&&!S.ex.some(e=>e.cue)&&!bad){reply+=' It\'s been a lot lately, to be honest.';cue='Jordan said "it\'s been a lot lately" (a cue to explore gently).';gaze='down'}
+  return{transcript:text,reply,emotion,intensity,gaze,head,moves,revealed,cue,coach_note:coach,trust,turn:S.turn+1}}
+/* ================= WRAP-UP + DEBRIEF ================= */
+function wrapPanel(){const w=S.wrap;const p=panel(`<span class="chip">After the conversation</span><h2>Wrap up</h2><p class="mut small">Your case files are still available. Write in your own words.</p>
+ <label class="f" for="w1">1 · Summarise back: what has Jordan told you? (2–4 sentences, Jordan's perspective)</label><textarea id="w1">${esc(w.summary||'')}</textarea>
+ <label class="f" for="w2">2 · SMART actions, with what you will do to support them</label><textarea id="w2">${esc(w.actions||'')}</textarea>
+ <label class="f" for="w3">3 · Follow-up plan: indicators, check-ins, review date, and when HR would be involved</label><textarea id="w3">${esc(w.followup||'')}</textarea>
+ <div class="bar"><button class="btn" id="f">Case files</button><button class="btn ghost" id="b">Back to the conversation</button><button class="btn gold" id="d">Submit and see debrief</button></div><div id="err" class="small" style="color:#ffb1aa"></div>`,{sticky:true});
+  const save=()=>{S.wrap={summary:p.querySelector('#w1').value,actions:p.querySelector('#w2').value,followup:p.querySelector('#w3').value};persist()};p.querySelectorAll('textarea').forEach(t=>t.addEventListener('change',save));
+  p.querySelector('#f').onclick=()=>{save();filesPanel(wrapPanel)};p.querySelector('#b').onclick=()=>{save();closeP()};
+  p.querySelector('#d').onclick=()=>{save();const w=S.wrap;if([w.summary,w.actions,w.followup].some(x=>x.trim().length<15)){p.querySelector('#err').textContent='Please write at least a sentence in each box.';return}doDebrief()}}
+const CRIT=[['evidence_first','Evidence before interpretation'],['employee_voice','Jordan has a genuine voice'],['actions_match_causes','Actions match verified causes'],['support_and_review','Support and review are explicit'],['policy_boundaries','Policy boundaries are respected']];
+function localDebrief(){const mv=k=>S.ex.filter(e=>e.moves.includes(k)).length,ml=a=>a.reduce((n,k)=>n+mv(k),0),w=S.wrap,all=(w.summary+' '+w.actions+' '+w.followup).toLowerCase(),lv=n=>n>=2?'Clearly evident':n===1?'Partly evident':'Not yet evident';
+  const first2=S.ex.slice(0,2).some(e=>e.moves.includes('evidence_first')||e.moves.includes('specific_observation'));
+  const c={};c.evidence_first={level:lv((first2?1:0)+(mv('blame_judgement')?0:1)),evidence:first2?'You brought specific facts into the first exchanges.':'The early turns did not clearly anchor in the data.',next_step:'Open with a specific, factual observation from the case files (SBI), then ask.'};
+  const voice=ml(['open_question','invites_voice','paraphrase','curious_followup']);c.employee_voice={level:lv(voice>=5?2:voice>=2?1:0),evidence:`${voice} listening/inquiry moves, ${mv('leading_question')} leading question(s).`,next_step:'Ask open questions, then paraphrase what you heard before responding.'};
+  const caus=S.revealed.length,mention=[/pre-?screen|financ/,/discount/,/next step|follow/,/flexib|\bhr\b|carer|caring|support/].filter(r=>r.test(all)).length;
+  c.actions_match_causes={level:lv(caus>=2&&mention>=2?2:(caus>=1||mention>=1)?1:0),evidence:`You uncovered ${caus} of ${(CFG.reveals||[]).length} causes; your plan touches ${mention} relevant area(s).`,next_step:'Match each action to a cause Jordan actually confirmed, and avoid solving causes you did not uncover.'};
+  const sr=[/\bi (will|'ll)|my support|walkthrough|coach|pair|shadow/,/check-?in|weekly/,/review|\d+ ?weeks?|by (the )?(end|friday|monday|\d)/,/leading|lagging|indicator|next step logged|close rate/].filter(r=>r.test(all)).length;
+  c.support_and_review={level:lv(sr>=4?2:sr>=2?1:0),evidence:`${sr} of 4 elements found (manager support, check-ins, review date, indicators).`,next_step:'Name your own support, a weekly check-in, a fixed review date and one leading plus one lagging indicator.'};
+  const viol=ml(['promise_beyond_authority','threat_formal'])+(/(promise|guarantee).*(leave|pay|target)|lower (your )?target|\bpip\b.*(now|immediately|straight)/i.test(all)?1:0),hr=/\bhr\b/.test(all)&&/(if|unless|no improvement|persist)/.test(all);
+  c.policy_boundaries={level:lv(viol?0:hr?2:1),evidence:viol?'A promise beyond your authority or an early formal threat appeared.':hr?'You kept within authority and framed HR as a proportionate trigger.':'You stayed within authority; the HR trigger was not clearly framed.',next_step:'Escalate only if there is no improvement despite agreed support; use HR for health or leave questions.'};
+  const mc=[];S.ex.forEach((e,i)=>{if(e.cue){const nx=S.ex[i+1];if(!nx||!nx.moves.some(m=>['empathy_acknowledge','curious_followup','open_question','invites_voice'].includes(m)))mc.push(`Turn ${i+1}: ${e.cue}`)}});
+  return{criteria:CRIT.map(([id])=>({id,...c[id]})),strengths:S.ex.flatMap(e=>e.moves.filter(m=>CFG.moves[m]>0)).filter((m,i,a)=>a.indexOf(m)===i).slice(0,4).map(m=>CFG.move_labels[m]),missed_cues:mc,overall:'Feedback generated by simple rules in demo mode. The live AI debrief gives richer, quoted feedback.'}}
+async function doDebrief(){const p=panel('<h2>Preparing your debrief…</h2><p class="mut">Reviewing your conversation.</p>',{sticky:true});let d=null;
+  if(LIVE){try{d=await postJSON('/api/debrief',{turns:S.ex,wrap:S.wrap,revealed:S.revealed},45000)}catch(e){d=null}}
+  const loc=localDebrief();const live=!!(d&&d.criteria);if(!live)d=loc;
+  const missed=(d.missed_cues&&d.missed_cues.length?d.missed_cues:loc.missed_cues);
+  S.phase='debrief';clearSaved();renderDebrief(d,missed,live);submitRecord(d,live)}
+async function submitRecord(d,live){const n=document.getElementById('subst');const set=t=>{if(n)n.textContent=t};
+  if(!API||!CODE_RX.test(CODE)){set('Not sent to a facilitator (no server or learner code). Use Download to keep a copy.');return}
+  const rec={when:new Date().toISOString(),mode:LIVE?'live':'demo',revealed:S.revealed,turns:S.ex,wrap:S.wrap,ai_debrief:live?d:null,rule_debrief:live?null:d};
+  for(let a=0;a<2;a++){try{await postJSON('/api/submit',{code:CODE,kind:'jordan',payload:rec},25000);set('Sent to your facilitator for review ✓ (code '+CODE+').');return}catch(e){if(a===1)set('Could not send to your facilitator ('+(e.message||'network')+'). Please use Download and hand in the file.')}}}
+function spark(){const h=[CFG.start_trust||.4].concat(S.ex.map(e=>e.trust)),W=560,H=110,x=i=>12+i*(W-24)/Math.max(1,h.length-1),y=v=>H-10-v*(H-20);
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px" role="img" aria-label="Jordan's trust across the conversation: ${h.map(v=>Math.round(v*100)).join(', ')} percent"><rect width="${W}" height="${H}" fill="#0f1d33" rx="8"/><line x1="12" x2="${W-12}" y1="${y(.5)}" y2="${y(.5)}" stroke="#2a4468" stroke-dasharray="4 4"/><polyline fill="none" stroke="#f2c14e" stroke-width="3" points="${h.map((v,i)=>x(i)+','+y(v)).join(' ')}"/>${h.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="4" fill="#5fd0e0"/>`).join('')}</svg>`}
+function renderDebrief(d,missed,live){const lc=l=>/Clearly/.test(l)?'c':/Partly/.test(l)?'p':'n';
+  const rows=S.ex.map((e,i)=>`<tr><td>${i+1}</td><td style="text-align:left">${esc(e.user.slice(0,110))}${e.user.length>110?'…':''}</td><td style="text-align:left">${e.moves.map(m=>`<span class="pill ${CFG.moves[m]>0?'p':'n'}">${esc(CFG.move_labels[m]||m)}</span>`).join('')||'<span class="mut">–</span>'}</td><td>${e.emotion}</td></tr>`).join('');
+  const found=(CFG.reveals||[]).map(r=>`<li>${S.revealed.includes(r.id)?'✓':'✗'} ${esc(r.label)}</li>`).join('');
+  const p=panel(`<span class="chip">Debrief · ${live?'AI feedback':'rule-based feedback'}</span><h2>Your conversation with Jordan</h2><p>${esc(d.overall||'')}</p>
+  <div class="note small"><b>This feedback is provisional.</b> Your facilitator reviews the transcript and confirms or changes each level. <span id="subst" aria-live="polite">Sending your record…</span></div>
+  <h3>Jordan's trust over the conversation</h3>${spark()}<p class="small mut">Trust rises when you are specific, curious and fair, and falls with blame, leading questions, pressure or promises you cannot keep.</p>
+  <h3>Criteria (no numeric grade: scoring bands are set later)</h3>${(d.criteria||[]).map(c=>{const nm=(CRIT.find(x=>x[0]===c.id)||[0,c.id])[1];return `<div class="crit"><b>${esc(nm)}</b> · <span class="lvl ${lc(c.level)}">${esc(c.level)}</span><div class="small">${esc(c.evidence||'')}</div><div class="small mut">Next time: ${esc(c.next_step||'')}</div></div>`}).join('')}
+  ${(d.strengths||[]).length?`<h3>What worked</h3><ul>${d.strengths.map(s=>`<li>${esc(s)}</li>`).join('')}</ul>`:''}
+  <h3>Cues Jordan gave</h3>${missed.length?`<ul>${missed.map(m=>`<li>${esc(m)}</li>`).join('')}</ul>`:'<p class="small">You picked up the cues Jordan offered (or none were offered).</p>'}
+  <h3>What was behind the decline</h3><ul style="list-style:none;padding-left:0">${found}</ul><p class="small mut">Real cause: pre-screening did not adapt to the financing partner's new criteria; discounts rose to rescue deals; follow-up slipped; Jordan has been caring for a parent. A proportionate response is support, not an automatic PIP.</p>
+  <h3>Your path, turn by turn</h3><table class="d"><tr><th>#</th><th>You said</th><th>Moves</th><th>Jordan</th></tr>${rows}</table>
+  <div class="bar"><button class="btn" id="dl">Download transcript + debrief</button><button class="btn ghost" id="re">Try again</button><button class="btn gold" id="x">Close</button></div>`,{sticky:true});
+  p.querySelector('#x').onclick=closeP;p.querySelector('#re').onclick=()=>{closeP();briefPanel()};p.querySelector('#dl').onclick=()=>download(d,missed)}
+function download(d,missed){const t=['MDOE407 final simulation: transcript and debrief','',...S.ex.map((e,i)=>`[${i+1}] You: ${e.user}\n    Jordan (${e.emotion}): ${e.reply}\n    Moves: ${e.moves.join(', ')||'none'}`),'','SUMMARY BACK:',S.wrap.summary,'','SMART ACTIONS:',S.wrap.actions,'','FOLLOW-UP PLAN:',S.wrap.followup,'','CRITERIA:',...(d.criteria||[]).map(c=>`- ${c.id}: ${c.level}. ${c.evidence} Next: ${c.next_step}`),'','MISSED CUES:',...(missed.length?missed:['none'])].join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/plain'}));a.download='jordan_simulation_debrief.txt';a.click()}
+/* ================= WIRING ================= */
+$('#bSend').onclick=()=>sendTurn($('#inp').value.trim());
+$('#inp').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendTurn($('#inp').value.trim())}});
+$('#inp').addEventListener('input',()=>{if(S.phase==='conv'&&!S.busy&&F.mode!=='speaking')setMode($('#inp').value?'listening':'idle');if(!$('#inp').value&&!S.busy&&F.mode==='idle')relaxFace()});
+$('#bMic').onclick=toggleMic;$('#bFiles').onclick=()=>filesPanel();$('#bHelp').onclick=helpPanel;$('#bSet').onclick=settingsPanel;
+$('#bEnd').onclick=()=>{if(window.speechSynthesis)speechSynthesis.cancel();wrapPanel()};
+$('#cbHide').onchange=e=>document.body.classList.toggle('nofx',e.target.checked);
+$('#cbVoice').checked=store.get('jordan_voice')==='1';$('#cbVoice').onchange=e=>{store.set('jordan_voice',e.target.checked?'1':'0');if(!e.target.checked&&window.speechSynthesis)speechSynthesis.cancel()};
+if(REDUCED)$('#cbVoice').title='Reduced motion is on: the face stays still';
+(async function init(){$('#bMic').disabled=true;
+  if(API){try{const c=new AbortController(),t=setTimeout(()=>c.abort(),60000);const r=await fetch(API+'/api/health',{signal:c.signal});clearTimeout(t);const h=await r.json();LIVE=!!(h&&h.ok&&h.live)}catch(e){LIVE=false}}
+  $('#mode').textContent=LIVE?'Live AI':'Demo mode';$('#bMic').disabled=!LIVE;if(!LIVE)$('#bMic').title='Speaking needs the live AI server';if(!window.MediaRecorder)$('#bMic').disabled=true;
+  setEmotion('neutral',.3);briefPanel()})();
+window.__J={S,F,setEmotion,detect,get LIVE(){return LIVE}};
+</script></body></html>

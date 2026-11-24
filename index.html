@@ -1,0 +1,65 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MDOE407 · Simulation prototypes</title><style>
+:root{--ink:#e8eef7;--mut:#93a6c0;--line:#2a4468;--gold:#f2c14e;--cy:#5fd0e0}
+*{box-sizing:border-box}body{margin:0;background:#0b1626;color:var(--ink);
+font:17px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+.w{max-width:980px;margin:0 auto;padding:64px 24px 80px}
+.k{font:700 14px/1 ui-monospace,Menlo,monospace;letter-spacing:3px;color:var(--gold);text-transform:uppercase}
+h1{font-size:44px;line-height:1.1;margin:18px 0 10px;letter-spacing:-.5px}
+.lede{color:var(--mut);font-size:19px;margin:0 0 14px;max-width:660px}
+.spine{color:var(--mut);font-size:15.5px;margin:0 0 36px;max-width:660px}
+.spine b{color:var(--ink);font-weight:600}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:760px){.cards{grid-template-columns:1fr}h1{font-size:34px}}
+a.card{display:flex;flex-direction:column;text-decoration:none;color:inherit;background:#14233b;
+border:2px solid var(--line);border-radius:14px;padding:24px 26px;transition:border-color .15s,transform .15s}
+a.card:hover,a.card:focus-visible{border-color:var(--cy);transform:translateY(-2px);outline:none}
+a.card .n{font:700 13px ui-monospace,monospace;color:var(--gold);letter-spacing:2px}
+a.card h2{font-size:23px;margin:10px 0 8px}
+a.card p{color:var(--mut);font-size:15.5px;margin:0 0 14px}
+a.card .go{margin-top:auto;color:var(--cy);font-weight:600;font-size:15px}
+.tag{display:inline-block;font:600 11.5px ui-monospace,monospace;letter-spacing:1px;
+border:1px solid var(--line);border-radius:99px;padding:3px 10px;color:var(--mut);margin-bottom:10px}
+.tag.ext{border-color:#9ec6b4;color:#b7dccb}.tag.sim{border-color:var(--gold);color:var(--gold)}
+.note{margin-top:38px;background:#101c31;border-left:4px solid var(--gold);padding:14px 18px;
+border-radius:0 8px 8px 0;font-size:15px;color:#cdd8e8}
+footer{margin-top:40px;color:#5a6e8a;font-size:14px}
+</style></head><body><div class="w">
+<div class="k">MDOE407 · Online Education Model Design</div>
+<h1>Managing Underperformance</h1>
+<p class="lede">Simulation prototypes for a course on performance conversations for new managers.
+Set at Lumera Aesthetics, a fictional company. All people and data are invented.</p>
+<p class="spine">Four levels, each giving <b>less support than the one before it</b>: a guided walkthrough,
+part-task practice, judgement in the room, then the conversation with no scaffolding at all.</p>
+<div class="cards">
+ <a class="card" href="nadia/">
+  <div class="n">LEVEL 1</div>
+  <h2>Guided walkthrough</h2>
+  <p>A fixed-order run through PREPARE with Nadia Cole. Every written answer is shown beside a model answer.</p>
+  <span class="go">Open the walkthrough →</span>
+ </a>
+ <a class="card" href="hub/">
+  <div class="n">LEVEL 2</div>
+  <h2>Lumera Learning Hub</h2>
+  <p>A walk-around office with five practice activities: spot the pattern, gather evidence, branching dialogues, weigh explanations, plan next steps.</p>
+  <span class="go">Open the hub →</span>
+ </a>
+ <a class="card" href="https://edu.delightex.com/CRY-QSY" target="_blank" rel="noopener">
+  <div class="n">LEVEL 3</div>
+  <span class="tag ext">OPENS IN COSPACES</span>
+  <h2>Weigh the explanation</h2>
+  <p>Three representatives explain a dip in their results. Read the data on the wall and judge how far it supports what you just heard.</p>
+  <span class="go">Open in CoSpaces ↗</span>
+ </a>
+ <a class="card" href="jordan/">
+  <div class="n">LEVEL 4</div>
+  <span class="tag sim">RULE-BASED STAND-IN</span>
+  <h2>The conversation with Jordan</h2>
+  <p>No options and no hints: type or speak in your own words. The live AI service is proposed, so this demonstration runs on a rule-based stand-in.</p>
+  <span class="go">Open the conversation →</span>
+ </a>
+</div>
+<div class="note"><b>Prototypes.</b> Progress is saved in your browser only, per device. The AI conversation
+service and the facilitator record pipeline are proposed, not deployed.</div>
+<footer>Lindsey · Jezal · Louis · EHEI</footer>
+</div></body></html>
